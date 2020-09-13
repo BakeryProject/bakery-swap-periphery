@@ -29,9 +29,9 @@ const bakeBonusEndBlock: BigNumber = bakeStartBlock
   .div(bonusEndBulkBlockSize)
 
 console.log('bakeBonusEndBlock  ' + bakeBonusEndBlock)
-const maxRewardBlockNumber: BigNumber = startBlock
-  .add(bonusEndBulkBlockSize.mul(bakeBonusEndBlock.div(bonusEndCommonDifference).add(1)))
-  .sub(1)
+const maxRewardBlockNumber: BigNumber = startBlock.add(
+  bonusEndBulkBlockSize.mul(bakeBonusEndBlock.div(bonusEndCommonDifference).add(1))
+)
 
 // (_from,_to]
 const getTotalRewardInfoInSameCommonDifference = (
@@ -353,6 +353,52 @@ describe('BakeryMaster', () => {
     // (0.11-0.005)*899999=94499.895
     console.log('getTotalRewardInfoInSameCommonDifference 13: ' + totalReward)
     expect(totalReward).to.eq(new BigNumber(94499895).mul(new BigNumber(10).pow(15)))
+
+    totalReward = getTotalRewardInfoInSameCommonDifference(
+      startBlock.add(new BigNumber(11).mul(900000)),
+      startBlock.add(new BigNumber(12).mul(900000)),
+      bakeBonusEndBlock,
+      bonusEndBulkBlockSize,
+      bonusEndCommonDifference
+    )
+    console.log('getTotalRewardInfoInSameCommonDifference 14: ' + totalReward)
+    expect(totalReward).to.eq(new BigNumber(495).mul(new BigNumber(10).pow(20)))
+    totalReward = getTotalRewardInfoInSameCommonDifference(
+      startBlock.add(new BigNumber(11).mul(900000)),
+      startBlock.add(new BigNumber(12).mul(900000).sub(1)),
+      bakeBonusEndBlock,
+      bonusEndBulkBlockSize,
+      bonusEndCommonDifference
+    )
+    console.log('getTotalRewardInfoInSameCommonDifference 15: ' + totalReward)
+    expect(totalReward).to.eq(new BigNumber(49499945).mul(new BigNumber(10).pow(15)))
+    totalReward = getTotalRewardInfoInSameCommonDifference(
+      startBlock.add(new BigNumber(21).mul(900000)),
+      startBlock.add(new BigNumber(22).mul(900000)),
+      bakeBonusEndBlock,
+      bonusEndBulkBlockSize,
+      bonusEndCommonDifference
+    )
+    console.log('getTotalRewardInfoInSameCommonDifference 16: ' + totalReward)
+    expect(totalReward).to.eq(new BigNumber(45).mul(new BigNumber(10).pow(20)))
+    totalReward = getTotalRewardInfoInSameCommonDifference(
+      startBlock.add(new BigNumber(21).mul(900000)),
+      startBlock.add(new BigNumber(22).mul(900000).sub(1)),
+      bakeBonusEndBlock,
+      bonusEndBulkBlockSize,
+      bonusEndCommonDifference
+    )
+    console.log('getTotalRewardInfoInSameCommonDifference 17: ' + totalReward)
+    expect(totalReward).to.eq(new BigNumber(4499995).mul(new BigNumber(10).pow(15)))
+    totalReward = getTotalRewardInfoInSameCommonDifference(
+      startBlock.add(new BigNumber(22).mul(900000)),
+      startBlock.add(new BigNumber(23).mul(900000).sub(1)),
+      bakeBonusEndBlock,
+      bonusEndBulkBlockSize,
+      bonusEndCommonDifference
+    )
+    console.log('getTotalRewardInfoInSameCommonDifference 18: ' + totalReward)
+    expect(totalReward).to.eq(new BigNumber(0))
   })
 
   it('getTotalRewardInfo', () => {

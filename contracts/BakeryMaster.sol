@@ -98,9 +98,9 @@ contract BakeryMaster is Ownable {
             .div(bonusEndBulkBlockSize);
         // max mint block number, _bakeInitBlock - (MAX-1)*_commonDifference = 0
         // MAX = startBlock + bonusEndBulkBlockSize * (_bakeInitBlock/_commonDifference + 1)
-        maxRewardBlockNumber = startBlock
-            .add(bonusEndBulkBlockSize.mul(bakeBonusEndBlock.div(bonusEndCommonDifference).add(1)))
-            .sub(1);
+        maxRewardBlockNumber = startBlock.add(
+            bonusEndBulkBlockSize.mul(bakeBonusEndBlock.div(bonusEndCommonDifference).add(1))
+        );
     }
 
     // *** POOL MANAGER ***
@@ -119,9 +119,7 @@ contract BakeryMaster is Ownable {
             massUpdatePools();
         }
         PoolInfo storage pool = poolInfoMap[_pair];
-        if (pool.exists) {
-            return;
-        }
+        require(!pool.exists, 'pool already exists');
         uint256 lastRewardBlock = block.number > startBlock ? block.number : startBlock;
         totalAllocPoint = totalAllocPoint.add(_allocPoint);
         pool.allocPoint = _allocPoint;
@@ -141,9 +139,7 @@ contract BakeryMaster is Ownable {
             massUpdatePools();
         }
         PoolInfo storage pool = poolInfoMap[_pair];
-        if (!pool.exists) {
-            return;
-        }
+        require(pool.exists, 'pool not exists');
         totalAllocPoint = totalAllocPoint.sub(pool.allocPoint).add(_allocPoint);
         pool.allocPoint = _allocPoint;
     }
@@ -270,7 +266,7 @@ contract BakeryMaster is Ownable {
 
     // View function to see pending BAKEs on frontend.
     function pendingBake(address _pair, address _user) external view returns (uint256) {
-        PoolInfo storage pool = poolInfoMap[_pair];
+        PoolInfo memory pool = poolInfoMap[_pair];
         if (!pool.exists) {
             return 0;
         }

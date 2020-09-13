@@ -99,11 +99,7 @@ contract BakeryMaster is Ownable {
         // max mint block number, _bakeInitBlock - (MAX-1)*_commonDifference = 0
         // MAX = startBlock + bonusEndBulkBlockSize * (_bakeInitBlock/_commonDifference + 1)
         maxRewardBlockNumber = startBlock
-            .add(
-            bonusEndBulkBlockSize.mul(
-                bakeBonusEndBlock.sub(bakeBonusEndBlock.mod(bakeBonusEndBlock)).div(bonusEndCommonDifference).add(1)
-            )
-        )
+            .add(bonusEndBulkBlockSize.mul(bakeBonusEndBlock.div(bonusEndCommonDifference).add(1)))
             .sub(1);
     }
 

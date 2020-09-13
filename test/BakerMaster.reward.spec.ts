@@ -30,14 +30,7 @@ const bakeBonusEndBlock: BigNumber = bakeStartBlock
 
 console.log('bakeBonusEndBlock  ' + bakeBonusEndBlock)
 const maxRewardBlockNumber: BigNumber = startBlock
-  .add(
-    bonusEndBulkBlockSize.mul(
-      bakeBonusEndBlock
-        .sub(bakeBonusEndBlock.mod(bakeBonusEndBlock))
-        .div(bonusEndCommonDifference)
-        .add(1)
-    )
-  )
+  .add(bonusEndBulkBlockSize.mul(bakeBonusEndBlock.div(bonusEndCommonDifference).add(1)))
   .sub(1)
 
 // (_from,_to]

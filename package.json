@@ -1,0 +1,51 @@
+{
+  "name": "@BakeryProject/bakery-swap-periphery",
+  "version": "0.0.1",
+  "description": "Bakery Swap Periphery",
+  "engines": {
+    "node": ">=10"
+  },
+  "files": [
+    "build",
+    "contracts"
+  ],
+  "dependencies": {
+    "@BakeryProject/bakery-swap-core": "0.0.1",
+    "@BakeryProject/bakery-swap-lib": "0.0.1"
+  },
+  "devDependencies": {
+    "@ethersproject/abi": "^5.0.3",
+    "@types/chai": "^4.2.6",
+    "@types/mocha": "^5.2.7",
+    "chai": "^4.2.0",
+    "ethereum-waffle": "^2.4.1",
+    "ethereumjs-util": "^6.2.0",
+    "ethers": "^4.0.48",
+    "mocha": "^6.2.2",
+    "ncp": "^2.0.0",
+    "prettier": "^1.19.1",
+    "prettier-plugin-solidity": "^1.0.0-alpha.57",
+    "rimraf": "^3.0.0",
+    "solc": "0.6.6",
+    "ts-node": "^8.5.4",
+    "typescript": "^3.7.3"
+  },
+  "scripts": {
+    "lint": "yarn prettier --check ./test/{**/*,*}.ts ./contracts/{**/*,*}.sol ",
+    "lint:fix": "yarn prettier  --write ./test/{**/*,*}.ts ./contracts/{**/*,*}.sol",
+    "clean": "rimraf ./build/",
+    "precompile": "yarn clean",
+    "compile": "waffle .waffle.json",
+    "pretest": "yarn compile",
+    "test": "mocha",
+    "prepublishOnly": "yarn lint"
+  },
+  "license": "GPL-3.0-or-later",
+  "repository": {
+    "type": "git",
+    "url": "ssh://git@github.com/BakeryProject/bakery-swap-periphery.git"
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com/"
+  }
+}

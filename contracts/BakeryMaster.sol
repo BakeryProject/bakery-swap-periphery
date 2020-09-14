@@ -156,8 +156,11 @@ contract BakeryMaster is Ownable {
         uint256 _bulkBlockSize,
         uint256 _commonDifference
     ) public view returns (uint256 totalReward) {
-        if (maxRewardBlockNumber <= _from) {
+        if (_to < startBlock || maxRewardBlockNumber <= _from) {
             return 0;
+        }
+        if (_from < startBlock) {
+            _from = startBlock;
         }
         if (maxRewardBlockNumber < _to) {
             _to = maxRewardBlockNumber;
